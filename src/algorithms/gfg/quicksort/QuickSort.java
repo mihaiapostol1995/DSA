@@ -2,7 +2,7 @@ package algorithms.gfg.quicksort;// Java implementation of QuickSort
 
 import java.util.Arrays;
 
-class GFG {
+class QuickSort {
 
     // A utility function to swap two elements
     static void swap(int[] arr, int i, int j)
@@ -16,7 +16,7 @@ class GFG {
     // places the pivot element at its correct position
     // in sorted array, and places all smaller to left
     // of pivot and all greater elements to right of pivot
-    static int partition(int[] arr, int lowestIndex, int highestIndex)
+    static int partitionLastElementGFG(int[] arr, int lowestIndex, int highestIndex)
     {
         // Choosing the pivot
         int pivot = arr[highestIndex];
@@ -39,6 +39,29 @@ class GFG {
         return (i + 1);
     }
 
+    static int partitionFirstElement(int[] arr, int lowestIndex, int highestIndex)
+    {
+        // Choosing the pivot
+        int pivot = arr[lowestIndex];
+
+        // Index of smaller element and indicates
+        // the right position of pivot found so far
+        int i = highestIndex + 1;
+
+        for (int j = highestIndex; j >= lowestIndex + 1; j--) {
+
+            // If current element is smaller than the pivot
+            if (arr[j] > pivot) {
+
+                // Increment index of smaller element, this will be reflected after the swap
+                i--;
+                swap(arr, i, j); //WHY
+            }
+        }
+        swap(arr, i - 1, lowestIndex); //WHY
+        return i -1;
+    }
+
     // The main function that implements QuickSort
     // arr[] --> Array to be sorted,
     // low --> Starting index,
@@ -49,7 +72,7 @@ class GFG {
 
             // pi is partitioning index, arr[p]
             // is now at right place
-            int pi = partition(arr, low, high);
+            int pi = partitionFirstElement(arr, low, high);
 
             // Separately sort elements before
             // partition and after partition
