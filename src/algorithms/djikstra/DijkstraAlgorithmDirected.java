@@ -30,7 +30,11 @@ public class DijkstraAlgorithmDirected {
                 int weight = neighbor.getValue();
 
                 int distance = distances.get(current) + weight;
-                if (distance < distances.get(adjacentNode)) {
+
+                int actualDistance = Integer.MAX_VALUE;
+                if (distances.get(adjacentNode) != null) actualDistance = distances.get(adjacentNode);
+
+                if (distance < actualDistance) {
                     distances.put(adjacentNode, distance);
                     priorityQueue.offer(adjacentNode);
                 }
