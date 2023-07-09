@@ -33,7 +33,7 @@ public class EditDistance {
                 if (string1.charAt(column - 1) == string2.charAt(row - 1))
                     table[column][row] = min;
 
-                // We must recur, so this operation costs us "1"
+                // We must do another recursion operation, so this operation costs us "1"
                 else table[column][row] = 1 + min;
             }
         }
