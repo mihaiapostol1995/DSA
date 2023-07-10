@@ -1,4 +1,4 @@
-package algorithms;
+package algorithms.dynamicprogramming;
 
 import java.util.Arrays;
 
@@ -12,20 +12,19 @@ public class CoinToss {
         int sum = 20;
         int[] coins = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17};
 
-        computeCombinations(sum, coins, coins[0]);
-        int results = count(sum, coins, coins.length);
-
+        computeCombinations(sum, coins, coins[0]); // own, complicated approach
         System.out.println(counts);
-        System.out.println(results);
 
-        int[][] dp = new int[coins.length + 1][sum + 1];
+        System.out.println(count(sum, coins, coins.length)); // easier approach
+        System.out.println(beginnerCount);
+
+        int[][] dp = new int[coins.length + 1][sum + 1]; // memoization (caching)
         for (int[] row : dp)
             Arrays.fill(row, -1);
         System.out.println(coinChange(coins, sum, coins.length, dp));
         System.out.println(Arrays.deepToString(dp));
 
         //System.out.println(callCount);
-        System.out.println(beginnerCount);
     }
 
     private static int count(int sum, int[] coins, int length) {
@@ -50,10 +49,6 @@ public class CoinToss {
             }
             else computeCombinations(temporarySum, coins, coin);
         }
-    }
-
-    private static void countsTable(int sum, int[] coins, int currentCoin) {
-
     }
 
     static int coinChange(int[] coins, int remainingSum, int arrayLength, int[][] dp) {

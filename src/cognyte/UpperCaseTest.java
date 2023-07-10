@@ -1,3 +1,5 @@
+package cognyte;
+
 public class UpperCaseTest {
 
     public static void main(String[] args) {

@@ -1,3 +1,5 @@
+package cognyte;
+
 import java.util.*;
 
 public class LinkedListWithNulls {

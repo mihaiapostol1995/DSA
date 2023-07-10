@@ -1,5 +1,6 @@
 package algorithms.trees;
 
+// I DON'T think this is a binary search tree, the nodes seem disordered. It's a regular tree.
 public class MaximumPathInBinaryTree {
 
     static int maxPathSum = Integer.MIN_VALUE;

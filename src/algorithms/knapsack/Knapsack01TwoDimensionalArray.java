@@ -29,7 +29,7 @@ public class Knapsack01TwoDimensionalArray {
                 }
 
                 else if (weights[i] <= j) {
-                    table[i][j] = Math.max(profits[i] + table[i - 1][maxWeight - weights[i]],
+                    table[i][j] = Math.max(profits[i] + table[i - 1][maxWeight - weights[i]], // compute
                             table[i][j - 1]); //the highest sum LOWEST than ours
                 }
                 else table[i][j] = table[i-1][j];

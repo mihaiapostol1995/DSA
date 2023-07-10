@@ -1,3 +1,5 @@
+package cognyte;
+
 public class SynchronizedInheritance {
     public void doSomething() {
         synchronized (this) {

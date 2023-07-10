@@ -1,3 +1,5 @@
+package cognyte;
+
 public class CompareLongs {
 
     public static void main(String[] args) {

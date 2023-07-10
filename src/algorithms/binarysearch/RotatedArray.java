@@ -27,6 +27,7 @@ public class RotatedArray {
                     binarySearch(array, key, split, endIndex));
     }
 
+    // Best solution
     private static int binarySearchLogN(int[] array, int key, int startIndex, int endIndex) {
         int split = (endIndex - startIndex) / 2 + startIndex;
 

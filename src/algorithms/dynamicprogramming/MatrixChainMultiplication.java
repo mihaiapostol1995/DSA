@@ -7,17 +7,36 @@ public class MatrixChainMultiplication {
     // Driver code
     public static void main(String[] args)
     {
-        int[] matrices = new int[] {1, 2, 3, 4, 3, 4,5,2,5,2,5,2,5,6,6,4,3,3,4,4,5,6,4,3,3,2,3,4,5,5,6,6,7,8,6,4,2,3,4,4,5,4,4,3,4,1,5,2,4,5,6,1,3,5,5,6,5,2,1,4,5,4,1,3,5,5,6,7,7,6,5,4,2};
+        //int[] matrices = new int[] {1, 2, 3, 4, 3, 4,5,2,5,2,5,2,5,6,6,4,3,3,4,4,5,6,4,3,3,2,3,4,5,5,6,6,7,8,6,4,2,3,4,4,5,4,4,3,4,1,5,2,4,5,6,1,3,5,5,6,5,2,1,4,5,4,1,3,5,5,6,7,7,6,5,4,2};
+        int [] matrices = new int[] {1, 2, 3, 4, 3};
         int arrayLength = matrices.length;
 
         matrixChainOrder(matrices, arrayLength);
         System.out.println(MatrixChainOrder(matrices, arrayLength));
+
+        System.out.println(matrixChainBruteFoce(matrices, 0, arrayLength - 2));
+    }
+
+    private static int matrixChainBruteFoce(int[] matrices, int startWindow, int end) {
+        if (startWindow == end) return 0;
+
+        int min = Integer.MAX_VALUE;
+
+        for (int i = startWindow; i < end; i++) {
+            int innerMin = matrixChainBruteFoce(matrices, startWindow, i)
+                    + matrixChainBruteFoce(matrices, i + 1, end)
+                    + matrices[startWindow] * matrices[i + 1] * matrices[end + 1]; // number of columns of end matrix
+            if (innerMin < min) min = innerMin;
+        }
+
+        if (min == Integer.MAX_VALUE) min = 0;
+        return min;
     }
 
     private static void matrixChainOrder(int[] matrixArray, int arrayLength) {
         int [][] table = new int[arrayLength][arrayLength];
 
-        int difference = 1; // this equals to the number of possible matrices, counting 0 matrix
+        int difference = 1; // this equals to the number of possible matrices, including 0 matrix which is the 1st one
         while (difference < arrayLength - 1) {
             for (int i = 0; i + difference < arrayLength - 1; i++) {
 
@@ -25,8 +44,8 @@ public class MatrixChainMultiplication {
                 for (int k = i; k < i + difference; k++) {
                     int innerMin = table[i][k] + table[k + 1][i + difference]
                             +
-                            matrixArray[i] // rows of i matrix
-                            * matrixArray[k + 1] // columns of k matrix
+                            matrixArray[i] // rows of i matrix, considering 0 in the matrixArray is the 1st matrix
+                            * matrixArray[k + 1] // columns of k matrix (or rows of k + 1 matrix)
                             * matrixArray[i + difference + 1]; //columns of "difference index" matrix
                     //
 
@@ -43,6 +62,7 @@ public class MatrixChainMultiplication {
         System.out.println(table[0][arrayLength-2]);
     }
 
+    // GFG
     // Matrix Ai has dimension p[i-1] x p[i] for i = 1..n
     static int MatrixChainOrder(int p[], int n)
     {

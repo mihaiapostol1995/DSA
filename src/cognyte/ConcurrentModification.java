@@ -1,3 +1,5 @@
+package cognyte;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +27,7 @@ class Fruit {
 
     @Override
     public String toString() {
-        return "Fruit{" +
+        return "cognyte.Fruit{" +
                 "name='" + name + '\'' +
                 '}';
     }

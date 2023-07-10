@@ -1,3 +1,5 @@
+package cognyte;
+
 public class SquareIds {
 
     public static void main(String[] args) {

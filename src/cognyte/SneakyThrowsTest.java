@@ -1,3 +1,5 @@
+package cognyte;
+
 public class SneakyThrowsTest {
 
 //    public static void main(String[] args) throws Exception {
