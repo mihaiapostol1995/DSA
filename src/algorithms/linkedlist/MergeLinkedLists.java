@@ -88,13 +88,13 @@ public class MergeLinkedLists {
         while (head1 != null && head2 != null) {
             if (head1.data < head2.data) {
                 copiedRoot.next = head1;
-                copiedRoot = copiedRoot.next;
+                copiedRoot = copiedRoot.next; // Move forward with the iteration
 
                 head1 = head1.next;
             }
             else {
                 copiedRoot.next = head2;
-                copiedRoot = copiedRoot.next;
+                copiedRoot = copiedRoot.next; // Move forward with the iteration
 
                 head2 = head2.next;
             }

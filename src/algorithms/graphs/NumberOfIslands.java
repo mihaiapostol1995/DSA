@@ -116,6 +116,23 @@ public class NumberOfIslands {
         dfs(grid, row + 1, col + 1); // Bottom-right
     }
 
+
+    /* chat gpt came with the idea
+     he used these two additional paramteres:
+
+     boolean[][] visited = new boolean[rows][cols];
+     int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
+
+     and this condition:
+
+                     if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols
+                    && grid[newRow][newCol] == '1' && !visited[newRow][newCol]) {
+                    queue.offer(new int[]{newRow, newCol});
+                    visited[newRow][newCol] = true;
+                }
+
+     */
+
     private static int findNumberOfIslandsBFS(int[][] mat) {
         boolean [][] visited = new boolean[mat.length][mat.length];
 
@@ -128,60 +145,65 @@ public class NumberOfIslands {
                 if (mat[rows][columns] == 1) {
                     countOfIslands ++;
 
-                    Queue<Island> queueOfIslands = new LinkedList<>();
-                    queueOfIslands.add(new Island(rows, columns));
-
-                    while (!queueOfIslands.isEmpty()) {
-                        Island island = queueOfIslands.poll();
-
-                        int islandRow = island.row;
-                        int islandColumn = island.column;
-
-                        visited[islandRow][islandColumn] = true;
-
-                        if (islandRow + 1 < mat.length && mat[islandRow + 1][islandColumn] == 1
-                            && !visited[islandRow + 1][islandColumn]) {
-                            queueOfIslands.add(new Island(islandRow + 1, islandColumn));
-                        }
-                        if (islandRow + 1 < mat.length && islandColumn + 1 < mat.length
-                            && mat[islandRow + 1][islandColumn + 1] == 1
-                            && !visited[islandRow + 1][islandColumn + 1]) {
-                            queueOfIslands.add(new Island(islandRow + 1, islandColumn + 1));
-                        }
-                        if (islandColumn + 1 < mat.length
-                                && mat[islandRow][islandColumn + 1] == 1
-                                && !visited[islandRow][islandColumn + 1]) {
-                            queueOfIslands.add(new Island(islandRow, islandColumn + 1));
-                        }
-                        if (islandRow - 1 >= 0 && mat[islandRow - 1][islandColumn] == 1
-                            && !visited[islandRow -1][islandColumn]) {
-                            queueOfIslands.add(new Island(islandRow - 1, islandColumn));
-                        }
-                        if (islandColumn - 1 >= 0
-                                && mat[islandRow][islandColumn - 1] == 1
-                                && !visited[islandRow][islandColumn - 1]) {
-                            queueOfIslands.add(new Island(islandRow, islandColumn -1));
-                        }
-                        if (islandRow - 1 >= 0 && islandColumn - 1 >= 0
-                                && mat[islandRow - 1][islandColumn -1] == 1
-                                && !visited[islandRow - 1][islandColumn - 1]) {
-                            queueOfIslands.add(new Island(islandRow - 1, islandColumn -1));
-                        }
-                        if (islandColumn + 1 < mat.length && islandRow - 1 >= 0
-                                && mat[islandRow - 1][islandColumn + 1] == 1
-                                && !visited[islandRow - 1][islandColumn + 1]) {
-                            queueOfIslands.add(new Island(islandRow - 1, islandColumn + 1));
-                        }
-                        if (islandRow + 1 < mat.length && islandColumn - 1 >= 0
-                                && mat[islandRow + 1][islandColumn -1] == 1
-                                && !visited[islandRow + 1][islandColumn - 1]) {
-                            queueOfIslands.add(new Island(islandRow + 1, islandColumn -1));
-                        }
-                    }
+                    bfs(mat, visited, rows, columns);
                 }
             }
         }
         return countOfIslands;
+    }
+
+    // purpose of this function is to visit all adjacent island-parts (marked as 1 in the grid)
+    private static void bfs(int[][] mat, boolean[][] visited, int rows, int columns) {
+        Queue<Island> queueOfIslands = new LinkedList<>();
+        queueOfIslands.add(new Island(rows, columns));
+
+        while (!queueOfIslands.isEmpty()) {
+            Island island = queueOfIslands.poll();
+
+            int islandRow = island.row;
+            int islandColumn = island.column;
+
+            visited[islandRow][islandColumn] = true;
+
+            if (islandRow + 1 < mat.length && mat[islandRow + 1][islandColumn] == 1
+                && !visited[islandRow + 1][islandColumn]) {
+                queueOfIslands.add(new Island(islandRow + 1, islandColumn));
+            }
+            if (islandRow + 1 < mat.length && islandColumn + 1 < mat.length
+                && mat[islandRow + 1][islandColumn + 1] == 1
+                && !visited[islandRow + 1][islandColumn + 1]) {
+                queueOfIslands.add(new Island(islandRow + 1, islandColumn + 1));
+            }
+            if (islandColumn + 1 < mat.length
+                    && mat[islandRow][islandColumn + 1] == 1
+                    && !visited[islandRow][islandColumn + 1]) {
+                queueOfIslands.add(new Island(islandRow, islandColumn + 1));
+            }
+            if (islandRow - 1 >= 0 && mat[islandRow - 1][islandColumn] == 1
+                && !visited[islandRow -1][islandColumn]) {
+                queueOfIslands.add(new Island(islandRow - 1, islandColumn));
+            }
+            if (islandColumn - 1 >= 0
+                    && mat[islandRow][islandColumn - 1] == 1
+                    && !visited[islandRow][islandColumn - 1]) {
+                queueOfIslands.add(new Island(islandRow, islandColumn -1));
+            }
+            if (islandRow - 1 >= 0 && islandColumn - 1 >= 0
+                    && mat[islandRow - 1][islandColumn -1] == 1
+                    && !visited[islandRow - 1][islandColumn - 1]) {
+                queueOfIslands.add(new Island(islandRow - 1, islandColumn -1));
+            }
+            if (islandColumn + 1 < mat.length && islandRow - 1 >= 0
+                    && mat[islandRow - 1][islandColumn + 1] == 1
+                    && !visited[islandRow - 1][islandColumn + 1]) {
+                queueOfIslands.add(new Island(islandRow - 1, islandColumn + 1));
+            }
+            if (islandRow + 1 < mat.length && islandColumn - 1 >= 0
+                    && mat[islandRow + 1][islandColumn -1] == 1
+                    && !visited[islandRow + 1][islandColumn - 1]) {
+                queueOfIslands.add(new Island(islandRow + 1, islandColumn -1));
+            }
+        }
     }
 
     static class Island {
