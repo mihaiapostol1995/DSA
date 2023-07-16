@@ -54,7 +54,10 @@ public class WordBoggle {
 //        if (row + 1 < boggle.length && column > 0) dfs(word + boggle[row+1][column-1], boggle, visited, row+1, column-1);
 //        if (row > 0 && column + 1 < boggle[0].length) dfs(word + boggle[row-1][column+1], boggle, visited, row-1, column+1);
 
+
         // GFG solution is more elegant: use for loops, ONLY FOR ADJACENT cells
+        // The conditions (i and j bigger than 0, smaller than the max ARE BUILT IN here).
+        // This is comparable to Chat GPT solution, see WordBoggleChatGPT
         for (int i = row - 1; i < boggle.length && i <= row + 1; i++) {
             for (int j = column - 1; j < boggle[0].length && j <= column + 1; j++) {
                 if (i >= 0 && j >= 0)
