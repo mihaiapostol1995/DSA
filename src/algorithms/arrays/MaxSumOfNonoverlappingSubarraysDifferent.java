@@ -14,33 +14,40 @@ public class MaxSumOfNonoverlappingSubarraysDifferent {
     }
 
     private static int maxSumMihai2DArray(int subArrayNumber, int subArraySize, int[] array) {
-        int[][] dp = new int[subArrayNumber + 1][array.length];
+        int[][] dp = new int[2][array.length];
         int[] sumUntil = new int[array.length];
 
+        // fill in the sum of all numbers till i;
         sumUntil[0] = array[0];
         for (int i = 1; i < array.length; i++) {
             sumUntil[i] = sumUntil[i -1] + array[i];
         }
 
         // base cases
-        for (int m = 1; m <= subArrayNumber; m++) {
-            dp[m][subArraySize] = sumUntil[subArraySize * m - 1];
+        for (int m = 0; m < subArrayNumber; m++) {
+            int M = m + 1;
+            dp[m][subArraySize] = sumUntil[subArraySize * M - 1];
         }
 
         // for EACH count of subarray (1, 2, etc subarrays), we find the max for K elements (where K is the size of the subarray)
-        for (int m = 1; m <= subArrayNumber; m++) {
+        for (int m = 0; m < subArrayNumber; m++) {
 
-            for (int j = subArraySize * m + 1; j < array.length; j++) {
-                dp[m][j] = Math.max(dp[m][j - 1],
-                        dp[m - 1][j - subArraySize] + (sumUntil[j] - sumUntil[j - subArraySize]));
-                // this is "THE OPERATION"
+            int M = m + 1;
+            for (int j = subArraySize * M + 1; j < array.length; j++) {
+                int operationResult = m == 0
+                        ? sumUntil[j] - sumUntil[j - subArraySize]
+                        : dp[m - 1][j - subArraySize] + sumUntil[j] - sumUntil[j - subArraySize];
+
+                dp[m][j] = Math.max(dp[m][j - 1], //recurse back
+                        operationResult); // this is "THE OPERATION"
             }
 
         }
 
-        return dp[subArrayNumber][array.length - 1];
+        return dp[1][array.length - 1];
     }
 
+    // Doesn't work!
     private static int maxSumMihai1DArray(int subArrayNumber, int subArraySize, int[] array) {
         int[] dp = new int[array.length];
         int[] sumUntil = new int[array.length];

@@ -20,8 +20,10 @@ public class MaxSumOfNonoverlappingSubarrays {
         System.out.println(maxSum(subArrayNumber, sumArray, subArraySize, 0));
 
         // testing GFG presumarray calculation
+        /*
         int presum[] = new int[array.length + 1 - subArraySize] ;
         calculatePresumArray(presum, array, array.length, subArraySize);
+         */
     }
 
     private static int maxSum(int subArrayNumber, int[] array, int subArraySize, int startIndex) {
