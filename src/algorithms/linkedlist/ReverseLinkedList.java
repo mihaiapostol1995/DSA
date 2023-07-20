@@ -1,7 +1,5 @@
 package algorithms.linkedlist;
 
-import sun.plugin.cache.CacheUpdateHelper;
-
 import java.util.Stack;
 
 public class ReverseLinkedList {

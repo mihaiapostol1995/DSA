@@ -1,7 +1,5 @@
 package algorithms.graphs;
 
-import sun.text.normalizer.Trie;
-
 public class WordBoggleTrie {
     public static void main(String[] args) {
         String[] dictionary = {"GEEKS", "FOR", "QUIZ", "GO"};

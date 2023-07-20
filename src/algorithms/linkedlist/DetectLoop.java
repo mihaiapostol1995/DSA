@@ -15,8 +15,8 @@ public class DetectLoop {
         
         detectLoopFloyd(linkedList);
 
-        detectLoopRemovingNext(linkedList);
-        linkedList.print(linkedList.head); // All the nodes' "next" relation will be broken
+        System.out.println(detectLoopRemovingNext(linkedList));
+        linkedList.print(linkedList.head); // All the nodes' "next" relation will be broken using this approach
     }
 
     private static boolean detectLoopRemovingNext(LinkedList linkedList) {

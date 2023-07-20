@@ -41,6 +41,7 @@ public class RatInAMaze {
             return true;
         }
 
+        // sort of backtracking?
         solution[i][j] = 0;
 
         return false;
