@@ -77,7 +77,7 @@ public class DijkstraAlgorithmDirected {
     static class Node {
 
         private final String name;
-        private final int distance; //Is this the actual WEIGHT of the edge? Is it is, check add method.
+        private final int distance; //Is this the actual WEIGHT of the edge? Yes it is, check add method.
 
         //Each node has a certain weight associated with its distance from THIS node. This is the edge weight
         private final Map<Node, Integer> graph;
