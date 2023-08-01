@@ -20,15 +20,7 @@ public class PetrolPump {
         System.out.println(queueSolutionGFG(petrolPumps));
 }
 
-    private static boolean queueSolutionGFG(int[][] petrolPumps) {
-        int start = 0, end = 1, petrol = 0;
-        Queue<Integer> petrolPumpQueue = new LinkedList<>();
-
-        for (int i = 0; i < petrolPumps.length; i++)
-            petrolPumpQueue.add(i);
-    }
-
-    private static int queueSolution(int[][] petrolPumps) {
+    private static int queueSolutionGFG(int[][] petrolPumps) {
         int start = 0, end = petrolPumps.length - 1, petrol = 0;
         Queue<Integer> petrolPumpQueue = new LinkedList<>();
 
@@ -38,15 +30,62 @@ public class PetrolPump {
         while (start != end) {
             Integer pump = petrolPumpQueue.peek();
             petrol += petrolPumps[pump][0] - petrolPumps[pump][1];
+//            if (petrol < 0) {
+//                while (petrol < 0) {
+//                    if (pump == petrolPumps.length)
+//                        return -1;
+//                    petrol = petrol - petrolPumps[pump][0] + petrolPumps[pump][1];
+//                    petrolPumpQueue.poll();
+//                    petrolPumpQueue.add(pump);
+//                    pump++;
+//                }
+//                start = pump;
+//                end = (start + petrolPumps.length - 1) % petrolPumps.length; // this approach forces you to update the end
+//            }
+//            else start = (start + 1) % petrolPumps.length;
+
+            if (petrol < 0) {
+                while (petrol < 0 && pump != end) { // we only computed until the "end" variable
+                    if (pump == petrolPumps.length)
+                        return -1;
+                    petrol = petrol - petrolPumps[pump][0] + petrolPumps[pump][1];
+                    petrolPumpQueue.poll();
+                    petrolPumpQueue.add(pump);
+                    pump++;
+                }
+                start = pump;
+            }
+            // we need modulus because the "end" value will need to go back to the beginning of the array
+            else end = (end + 1) % petrolPumps.length;
+        }
+
+        return petrolPumpQueue.peek();
+    }
+
+
+    // "start" and the polling of the pumps are NOT RELATED. Start is used here just as a tracker, to make sure we always go all the length till the end, nothing else.
+    // but this is NOT efficient. what if you have 100 elements. you should not start again from the beginning of the queue...
+    // instead, you subtract the first petrol pump, and do a small computation and see if the new starting point is good.
+    // end should go aaaaall the way unti it meets "start" again
+
+    private static int queueSolution(int[][] petrolPumps) {
+        int start = 0, end = petrolPumps.length - 1, petrol = 0;
+        Queue<Integer> petrolPumpQueue = new LinkedList<>();
+
+        for (int i = 0; i < petrolPumps.length; i++)
+            petrolPumpQueue.add(i);
+
+        while (start <= end) {
+            Integer pump = petrolPumpQueue.peek();
+            petrol += petrolPumps[pump][0] - petrolPumps[pump][1];
             if (petrol < 0) {
                 if (pump == petrolPumps.length - 1)
                     return -1;
 
                 petrol = 0;
+                start = 0;
                 petrolPumpQueue.poll();
                 petrolPumpQueue.add(pump);
-                start++;
-                end = (start + (petrolPumps.length - 1));
             }
             else start++;
         }
@@ -68,12 +107,14 @@ public class PetrolPump {
             suffixes[i] = suffixes[i + 1] + petrolPumps[i][0] - petrolPumps[i][1];
         }
 
-        for (int i = 0; i < petrolPumps.length; i++) {
-            if (i == end && prefixes[i] >= 0)
-                return i;
-            if (prefixes[i] >= 0 && suffixes[i + 1] >= 0)
-                return i;
-        }
+        // not correct
+
+//        for (int i = 0; i < petrolPumps.length; i++) {
+//            if (i == end && prefixes[i] >= 0)
+//                return i;
+//            if (prefixes[i] >= 0 && suffixes[i + 1] >= 0)
+//                return i;
+//        }
 
         return -1;
     }
@@ -99,18 +140,24 @@ public class PetrolPump {
         return head;
     }
 
+    // why does this work... we are not just incrementing the head with 1, we are JUMPING over a lot of possible heads.
+    // i think we should do here exactly as in the queue solution AND dynamic-programming solution combined.
+    // Meaning, increment start one by one, then compute this "sumFromStart" subtracting it from "currentPetrol"
+    // until we get positive "curentPetrol". Later edit: we don't need to do this, we can skip many intermediary starting points
     private static int findStartingPointSingleLoop(int[][] petrolPumps) {
         int totalPetrol = 0, startingPetrol = 0;
         int head = petrolPumps.length;
+        int deficit = 0;
         for (int i = 0; i < petrolPumps.length; i++) {
             totalPetrol += petrolPumps[i][0] - petrolPumps[i][1];
 
             if ((startingPetrol += petrolPumps[i][0] - petrolPumps[i][1]) < 0) {
+                deficit = startingPetrol;
                 startingPetrol = 0;
-                head = i + 1;
+                head = i + 1; // try the head after the current one, likely SKIPPING MANY INTERMEDIARY heads
             }
         }
 
-        return (totalPetrol < 0) ? -1 : head;
+        return (deficit + startingPetrol < 0) ? -1 : head;
     }
 }
